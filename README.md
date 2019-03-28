@@ -11,7 +11,6 @@ Content hub is a collection of files and issues related to ANK_VALUES videos cha
 
 > what's ANK_VALUES?
 
-
 With the massive growth of information and knowledge, human need to find a right way to cheek the credibility of the propositions easily and accelerate the speed to know(not master) knowledge in different areas.
 
 I know there are already some commercial platforms warppering themselves as "knowledge market" or "QA community", but I think that is still to far from the targets I mentioned above. Commercial platforms do make fantastic videos or books than community, but, how can them face the so many different areas nowadays. How can them maintain each topic (such as 'methods to build a CNN model on your PC.' and 'Singapore gay legalization' etc...) all the time. 
