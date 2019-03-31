@@ -28,6 +28,7 @@
     "tags":["technology","computer vision"],
     "isFor":["age12-22","primary"],
     "notFor":["age0-12","senior"],
-    "warning":["possible hurt level-middle","bad language level-low"]
+    "warning":["possible hurt level-middle","bad language level-low"],
+    "log":"Why are we here? What are we f**king doing?"
 
 }
