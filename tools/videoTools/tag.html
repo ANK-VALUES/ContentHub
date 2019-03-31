@@ -12,18 +12,22 @@ body{
   font-family: "PingHei","Helvetica Neue","Helvetica","Arial","Verdana","sans-serif";
 
 }    
-    #title{
+    .title{
   /* font:bold 48pt "Trebuchet MS"; */
   text-align: center;
   color: #16e7cf;
   letter-spacing: -2px;
+  margin-top: 30px;
 }
-#title span{
+#startTitle{
+  margin-top: 10%;
+}
+.title span{
   font-weight: normal;
   color: #16e7cf;
 }
 
-#tags{
+.tags{
   /* -webkit-border-radius: 10px;
   -moz-border-radius: 10px; */
   /* border-radius: 10px; */
@@ -48,7 +52,7 @@ body{
 
 .tag{
   display: inline-block;
-  /* background: #ffea00; */
+  background: #7F7F7F;
   color: #FFF;
   padding: 5px 10px;
   margin:2px 2px 2px 20px;
@@ -156,39 +160,35 @@ body{
 
   
   
-  <h1 id="title"><span>ANK-VALUES</span></h1>
+  <h1 id="startTitle" class="title"><span>Tags</span></h1>
   <label for="tag-typer">
-  <div id="tags">
-    <span class="tag"><span class="close">&times;</span>such tage</span>
-    <span class="tag"><span class="close">&times;</span>so color</span>
-    <span class="tag"><span class="close">&times;</span>many type</span>
-    <span class="tag"><span class="close">&times;</span>wow</span>
-    <input id="tag-typer" type="text" placeholder="Add tag..."/>
-    
+<div class="tags" >
+    {% for tag in tags %}
+    <span class="tag"><span class="close">&times;</span>{{tag}}</span>
+    {% endfor %}  
   </div>
-  <div id="tags">
-    <span class="tag fit"><span class="close">&times;</span>such tage</span>
-    <span class="tag fit"><span class="close">&times;</span>so color</span>
-    <span class="tag fit"><span class="close">&times;</span>many type</span>
-    <span class="tag fit"><span class="close">&times;</span>wow</span>
-    <input id="tag-typer" type="text" placeholder="Add tag..."/>
-    
+  <h1 class="title"><span>Suitable for</span></h1>
+
+  <div class="tags">
+      {% for tag in isFor %}
+      <span class="tag fit"><span class="close">&times;</span>{{tag}}</span>
+      {% endfor %}    
   </div>
-  <div id="tags">
-    <span class="tag not-fit"><span class="close">&times;</span>such tage</span>
-    <span class="tag not-fit"><span class="close">&times;</span>so color</span>
-    <span class="tag not-fit"><span class="close">&times;</span>many type</span>
-    <span class="tag not-fit"><span class="close">&times;</span>wow</span>
-    <input id="tag-typer" type="text" placeholder="Add tag..."/>
-    
+
+  <h1 class="title"><span>Not suitable for</span></h1>
+
+  <div class="tags">
+      {% for tag in notFor %}
+      <span class="tag not-fit"><span class="close">&times;</span>{{tag}}</span>
+      {% endfor %}  
   </div>
-  <div id="tags">
-    <span class="tag alert"><span class="close">&times;</span>such tage</span>
-    <span class="tag alert"><span class="close">&times;</span>so color</span>
-    <span class="tag alert"><span class="close">&times;</span>many type</span>
-    <span class="tag alert"><span class="close">&times;</span>wow</span>
-    <input id="tag-typer" type="text" placeholder="Add tag..."/>
-    
+
+  <h1 class="title"><span>Warning</span></h1>
+
+  <div class="tags">
+      {% for tag in warning %}
+      <span class="tag alert"><span class="close">&times;</span>{{tag}}</span>
+      {% endfor %} 
   </div>
   </label>
   <script>
@@ -206,10 +206,7 @@ body{
     }
   });
   
-  $("#tags").on("click", ".close", function() {
-    $(this).parent("span").fadeOut(100);
-  });
-  
+
   $(".colors li").click(function() {
     var c = $(this).css("background-color");
     $(".tag").css("background-color",c);

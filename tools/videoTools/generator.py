@@ -4,6 +4,8 @@ import collections
 import subprocess
 import time
 
+import jinja2
+
 def flatten(d, parent_key='', sep='.',warp="$"):
     items = []
     for k, v in d.items():
@@ -30,10 +32,17 @@ class ANKVideo():
         self.coverFile="cover.html"
         self.profileFile="profile.html"
         self.tagFile="tag.html"
+        self.headerSlice="header.mp4"
 
         self.flatReplaceDict=dict()
         self.ffThreadsNum=8
         self.middleTmpFile=dict()
+
+        self.coverTime=2
+        self.profileTime=2
+        self.tagTime=2
+
+        self.endingTime=2
         pass
     def askForSetting(self):
         inString=""
@@ -42,9 +51,21 @@ class ANKVideo():
         inString=input("input profile page (default profile.html)>")
         self.profileFile=self.profileFile if len(inString)==0 else inString        
         inString=input("input tag page (default tag.html)>")
-        self.tagFile=self.tagFile if len(inString)==0 else inString   
+        self.tagFile=self.tagFile if len(inString)==0 else inString 
+        inString=input("input header video name (default header.mp4)>")
+        self.headerSlice=self.headerSlice if len(inString)==0 else inString
+  
         inString=input("input output video name (default output.mp4)>")
         self.outputFileName=self.outputFileName if len(inString)==0 else inString
+
+        inString=input("input cover time (default 2)>")
+        self.coverTime=self.coverTime if len(inString)==0 else inString
+
+        inString=input("input profile time (default 2)>")
+        self.profileTime=self.profileTime if len(inString)==0 else inString
+
+        inString=input("input tag time (default 2)>")
+        self.tagTime=self.tagTime if len(inString)==0 else inString
 
     def _readFileAsDict(self,fileName):
         d=None
@@ -66,24 +87,24 @@ class ANKVideo():
         #handle cover
         coverOutHtml="tmp."+self.coverFile
         coverInHtmlString=self._readFileAsString(self.coverFile)
-        for k,v in self.flatReplaceDict.items():
-            coverInHtmlString=coverInHtmlString.replace(k,str(v))
+        
+        # for k,v in self.flatReplaceDict.items():
+        #     coverInHtmlString=coverInHtmlString.replace(k,str(v))
+        coverInHtmlString=jinja2.Template(coverInHtmlString).render(self.conf)
         writeStringToFile(coverInHtmlString,coverOutHtml)
         self.middleTmpFile["TMP.COVER"]=coverOutHtml
         self.middleTmpFile["TMP.COVER.PNG"]=coverOutHtml+".png"
 
         profileOutHtml="tmp."+self.profileFile
         profileInHtmlString=self._readFileAsString(self.profileFile)
-        for k,v in self.flatReplaceDict.items():
-            profileInHtmlString=profileInHtmlString.replace(k,str(v))
+        profileInHtmlString=jinja2.Template(profileInHtmlString).render(self.conf)
         writeStringToFile(profileInHtmlString,profileOutHtml)
         self.middleTmpFile["TMP.PROFILE"]=profileOutHtml
         self.middleTmpFile["TMP.PROFILE.PNG"]=profileOutHtml+".png"
 
         tagOutHtml="tmp."+self.tagFile
         tagInHtmlString=self._readFileAsString(self.tagFile)
-        for k,v in self.flatReplaceDict.items():
-            tagInHtmlString=tagInHtmlString.replace(k,str(v))
+        tagInHtmlString=jinja2.Template(tagInHtmlString).render(self.conf)
         writeStringToFile(tagInHtmlString,tagOutHtml)
         self.middleTmpFile["TMP.TAG"]=tagOutHtml
         self.middleTmpFile["TMP.TAG.PNG"]=tagOutHtml+".png"
@@ -102,7 +123,45 @@ class ANKVideo():
         pProfile.wait()
         pTag.wait()
 
+        self.middleTmpFile["TMP.COVER.PNG.MP4"]=self.middleTmpFile["TMP.COVER.PNG"]+".mp4"
+        self.middleTmpFile["TMP.PROFILE.PNG.MP4"]=self.middleTmpFile["TMP.PROFILE.PNG"]+".mp4"
+        self.middleTmpFile["TMP.TAG.PNG.MP4"]=self.middleTmpFile["TMP.TAG.PNG"]+".mp4"
+        pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.COVER.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.coverTime)+"  -threads 8 "+self.middleTmpFile["TMP.COVER.PNG.MP4"]
+
+        cvtCoverP=subprocess.Popen(pngToMp4CommandShell,shell=True)
+
+
+        pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.PROFILE.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.profileTime)+"  -threads 8 "+self.middleTmpFile["TMP.PROFILE.PNG.MP4"]
+
+        cvtProfileP=subprocess.Popen(pngToMp4CommandShell,shell=True)
+
+
+        pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.TAG.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.tagTime)+"  -threads 8 "+self.middleTmpFile["TMP.TAG.PNG.MP4"]
+
+        cvtTagP=subprocess.Popen(pngToMp4CommandShell,shell=True)
+
+        cvtCoverP.wait()
+        cvtProfileP.wait()
+        cvtTagP.wait()
+        
+        files=[]
+
+        files.append("file "+self.middleTmpFile["TMP.COVER.PNG.MP4"])
+        files.append("file "+self.middleTmpFile["TMP.PROFILE.PNG.MP4"])
+        files.append("file "+self.middleTmpFile["TMP.TAG.PNG.MP4"])
+        finalString=str.join("\n",files)
+        
+        writeStringToFile(finalString,"tmp.list.txt")
+
+
+        joinVideoCommandShell="ffmpeg -f concat -i tmp.list.txt -c copy "+self.headerSlice
+
+        joinVideoP=subprocess.Popen(joinVideoCommandShell,shell=True)
+
+        joinVideoP.wait()
         print(str(self.middleTmpFile))
+
+
 if __name__ == "__main__":
     v=ANKVideo()
     v.askForSetting()

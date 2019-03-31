@@ -1,0 +1,3 @@
+file tmp.cover.html.png.mp4
+file tmp.profile.html.png.mp4
+file tmp.tag.html.png.mp4

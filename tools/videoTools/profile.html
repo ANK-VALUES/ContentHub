@@ -397,19 +397,19 @@ a, a:hover {
   
                 <div class="profile-card js-profile-card">
                   <div class="profile-card__img">
-                    <img src="https://res.cloudinary.com/muhammederdem/image/upload/v1537638518/Ba%C5%9Fl%C4%B1ks%C4%B1z-1.jpg" alt="profile card">
+                    <img src="{{initialAuthor.avator}}" alt="profile card">
                   </div>
               
                   <div class="profile-card__cnt js-profile-cnt">
-                    <div class="profile-card__name">Muhammed Erdem</div>
-                    <div class="profile-card__txt">Front-end Developer from <strong>Mesopotamia</strong></div>
+                    <div class="profile-card__name">{{initialAuthor.name}}</div>
+                    <div class="profile-card__txt">{{initialAuthor.introduce}}</div>
                     <div class="profile-card-loc">
                       <span class="profile-card-loc__icon">
                         <svg class="icon"><use xlink:href="#icon-location"></use></svg>
                       </span>
               
                       <span class="profile-card-loc__txt">
-                        Istanbul, Turkey
+                          {{initialAuthor.location}}
                       </span>
                     </div>
               
@@ -417,7 +417,7 @@ a, a:hover {
               
                       <div class="profile-card-inf__item">
                         <div class="profile-card-inf__title">email</div>
-                        <div class="profile-card-inf__txt">None</div>
+                        <div class="profile-card-inf__txt">{{initialAuthor.email}}</div>
                       </div>
               
               
