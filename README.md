@@ -31,6 +31,18 @@ There are three main functions of human language.
 *   statement -> STM
 *   express emotion -> ESE
 
+>   STM has more sub types
+
+```js
+
+STM.THEORY // theory
+
+STM.TECH //technology engineering
+
+STM.ARGUMENT //opinion argument ,the difference between STM.ARGUMENT and ESE is that STM.ARGUMENT needs support from evidence
+
+```
+
 Topic is a data structure as followed
 ```json
 {
@@ -54,7 +66,13 @@ Topic is a data structure as followed
 
         }
     ]
-    "initialAuthor":"Kevin",
+    "initialAuthor":{
+        "name":"Kevin",
+        "introduce":"Computer, mathematics, engineering",
+        "location":"Beijing, China",
+        "email":"ankkevinluo@gmail.com",
+        "avator":"./CAW.png"
+    },
     "tags":["technology","computer vision",...],//you can add these tags to help people overview your topic
     
     //I know what you want to say - "how to find the tag system where i can choose tags from ?". I must say sorry. currently i still have not built that, but it will come soon, man.
@@ -62,7 +80,8 @@ Topic is a data structure as followed
 
     "for":["age12-22","primary"],//selector to your target population
     "notFor":["age0-12","senior"],//filter
-    "warning":["possible hurt level-middle","bad language level-low"]//some warnings of content
+    "warning":["possible hurt level-middle","bad language level-low"],//some warnings of content
+    "log":"Why are we here? What are we doing?"// a log left at the ending for 3 seconds
 
 }
 ```
