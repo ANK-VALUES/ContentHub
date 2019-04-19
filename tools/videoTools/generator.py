@@ -6,6 +6,7 @@ import time
 import os
 import jinja2
 
+
 def flatten(d, parent_key='', sep='.',warp="$"):
     items = []
     for k, v in d.items():
@@ -35,7 +36,7 @@ class ANKVideo():
         self.headerSlice="header.mp4"
         self.endingFile="ending.html"
 
-        self.innerVideo=""
+        self.innerVideo="talk.mp4"
 
         self.flatReplaceDict=dict()
         self.ffThreadsNum=8
@@ -49,6 +50,9 @@ class ANKVideo():
         pass
     def askForSetting(self):
         inString=""
+        inString=input("input payload video file name  (default talk.mp4)>")
+        self.innerVideo=self.innerVideo if len(inString)==0 else inString
+
         inString=input("input cover page (default cover.html)>")
         self.coverFile=self.coverFile if len(inString)==0 else inString
         inString=input("input profile page (default profile.html)>")
@@ -149,65 +153,83 @@ class ANKVideo():
         pTag.wait()
         endTag.wait()
 
-        self.middleTmpFile["TMP.COVER.PNG.MP4"]=self.middleTmpFile["TMP.COVER.PNG"]+".mp4"
-        self.middleTmpFile["TMP.PROFILE.PNG.MP4"]=self.middleTmpFile["TMP.PROFILE.PNG"]+".mp4"
-        self.middleTmpFile["TMP.TAG.PNG.MP4"]=self.middleTmpFile["TMP.TAG.PNG"]+".mp4"
-        self.middleTmpFile["TMP.END.PNG.MP4"]=self.middleTmpFile["TMP.END.PNG"]+".mp4"
+        # self.middleTmpFile["TMP.COVER.PNG.MP4"]=self.middleTmpFile["TMP.COVER.PNG"]+".mp4"
+        # self.middleTmpFile["TMP.PROFILE.PNG.MP4"]=self.middleTmpFile["TMP.PROFILE.PNG"]+".mp4"
+        # self.middleTmpFile["TMP.TAG.PNG.MP4"]=self.middleTmpFile["TMP.TAG.PNG"]+".mp4"
+        # self.middleTmpFile["TMP.END.PNG.MP4"]=self.middleTmpFile["TMP.END.PNG"]+".mp4"
 
-        pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.COVER.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.coverTime)+"  -threads 8 "+self.middleTmpFile["TMP.COVER.PNG.MP4"]
+        # pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.COVER.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250  -r 25 -t "+str(self.coverTime)+"  -threads 8 "+self.middleTmpFile["TMP.COVER.PNG.MP4"]
 
-        cvtCoverP=subprocess.Popen(pngToMp4CommandShell,shell=True)
-
-
-        pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.PROFILE.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.profileTime)+"  -threads 8 "+self.middleTmpFile["TMP.PROFILE.PNG.MP4"]
-
-        cvtProfileP=subprocess.Popen(pngToMp4CommandShell,shell=True)
+        # cvtCoverP=subprocess.Popen(pngToMp4CommandShell,shell=True)
 
 
-        pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.TAG.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.tagTime)+"  -threads 8 "+self.middleTmpFile["TMP.TAG.PNG.MP4"]
+        # pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.PROFILE.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.profileTime)+"  -threads 8 "+self.middleTmpFile["TMP.PROFILE.PNG.MP4"]
 
-        cvtTagP=subprocess.Popen(pngToMp4CommandShell,shell=True)
-
-
-        pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.END.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.endingTime)+"  -threads 8 "+self.middleTmpFile["TMP.END.PNG.MP4"]
-
-        cvtEnd=subprocess.Popen(pngToMp4CommandShell,shell=True)
-
-        cvtCoverP.wait()
-        cvtProfileP.wait()
-        cvtTagP.wait()
-        cvtEnd.wait()
-
-        files=[]
-
-        files.append("file "+self.middleTmpFile["TMP.COVER.PNG.MP4"])
-        files.append("file "+self.middleTmpFile["TMP.PROFILE.PNG.MP4"])
-        files.append("file "+self.middleTmpFile["TMP.TAG.PNG.MP4"])
-        if len(self.innerVideo)==0:
-            pass
-        else:
-            files.append("file "+self.innerVideo)
-
-        files.append("file "+self.middleTmpFile["TMP.END.PNG.MP4"])
+        # cvtProfileP=subprocess.Popen(pngToMp4CommandShell,shell=True)
 
 
-        finalString=str.join("\n",files)
+        # pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.TAG.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.tagTime)+"  -threads 8 "+self.middleTmpFile["TMP.TAG.PNG.MP4"]
+
+        # cvtTagP=subprocess.Popen(pngToMp4CommandShell,shell=True)
+
+
+        # pngToMp4CommandShell="ffmpeg -r 25 -loop 1 -i "+ self.middleTmpFile["TMP.END.PNG"]+ " -pix_fmt yuv420p -vcodec libx264 -b:v 600k -r:v 25 -preset medium -crf 25 -s 1920x1080 -vframes 250 -r 25 -t "+str(self.endingTime)+"  -threads 8 "+self.middleTmpFile["TMP.END.PNG.MP4"]
+
+        # cvtEnd=subprocess.Popen(pngToMp4CommandShell,shell=True)
+
+        # cvtCoverP.wait()
+        # cvtProfileP.wait()
+        # cvtTagP.wait()
+        # cvtEnd.wait()
+
+        # files=[]
+
+        # files.append("file '"+self.middleTmpFile["TMP.COVER.PNG.MP4"]+"'")
+        # files.append("file '"+self.middleTmpFile["TMP.PROFILE.PNG.MP4"]+"'")
+        # files.append("file '"+self.middleTmpFile["TMP.TAG.PNG.MP4"]+"'")
+        # if len(self.innerVideo)==0:
+        #     pass
+        # else:
+        #     files.append("file '"+self.innerVideo+"'")
+
+        # files.append("file '"+self.middleTmpFile["TMP.END.PNG.MP4"]+"'")
+
+
+        # finalString=str.join("\n",files)
         
-        writeStringToFile(finalString,"tmp.list.txt")
+        # writeStringToFile(finalString,"tmp.list.txt")
 
 
-        joinVideoCommandShell="ffmpeg -f concat -i tmp.list.txt -c copy "+self.outputFileName
+        # joinVideoCommandShell="ffmpeg -f concat -i tmp.list.txt -c copy -acodec copy  "+self.outputFileName
+
+        # joinVideoP=subprocess.Popen(joinVideoCommandShell,shell=True)
+
+
+
+        joinVideoCommandShell='ffmpeg \
+-loop 1 -probesize 10MB -framerate 24 -t {} -i {} \
+-loop 1 -probesize 10MB -framerate 24 -t {} -i {} \
+-loop 1 -probesize 10MB -framerate 24 -t {} -i {} \
+-i {} \
+-loop 1 -probesize 10MB -framerate 24 -t {} -i {} \
+-f lavfi -t 0.1 -i anullsrc \
+-filter_complex " [0:v][5:a][1:v][5:a][2:v][5:a][3:v][3:a][4:v][5:a] concat=n=5:v=1:a=1 [v][a]" \
+-map "[v]" -map "[a]" {}'.format(self.coverTime,self.middleTmpFile["TMP.COVER.PNG"],self.profileTime,self.middleTmpFile["TMP.PROFILE.PNG"],self.tagTime,self.middleTmpFile["TMP.TAG.PNG"],self.innerVideo,self.endingTime,self.middleTmpFile["TMP.END.PNG"],self.outputFileName)
+# "+self.outputFileName
 
         joinVideoP=subprocess.Popen(joinVideoCommandShell,shell=True)
+
+
 
         joinVideoP.wait()
 
         try:
             for k,v in self.middleTmpFile.items():
                 os.remove(v)
+                pass
         except Exception:
             pass
-        print(str(self.middleTmpFile))
+        # print(str(self.middleTmpFile))
 
 
 if __name__ == "__main__":
