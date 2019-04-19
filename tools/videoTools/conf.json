@@ -1,34 +1,31 @@
 {
-    "name":"How to implement a suburban home defense system at low cost",
-    "id":"8aaa07afad614586aefae434bd98489b",
-    "type":"STM",
-    "credibility":0.50,
+    "name":"Why should I create ContentHub?",
+    "id":"5220ef1866290f76e4574e590cf07bcd",
+    "type":"STM.TECH",
+    "credibility":0.0,
     "innerRefers":[
-        "dbe75952a4d4aa910db41d7bb10f9507",
-        "a52504527ecb5467e9378d3f8ac7052c"
     ],
     "outerRefers":[
         {
-            "GB/T7714":[
-            "Yang G X , Li F J . Investigation of Security and Defense System for Home Based on Internet of Things[C]// 2010 International Conference on Web Information Systems and Mining (WISM 2010). IEEE Computer Society, 2010."
-            ]
-            ,
-            "webPage":[
-                "https://en.wikipedia.org/wiki/Thermographic_camera"
+            
+            "GB/T7714":
+            [
+                "Shariff S M , Zhang X , Sanderson M . User Perception of Information Credibility of News on Twitter[C]// European Conference on Ir Research on Advances in Information Retrieval. Springer-Verlag New York, Inc. 2014.",
+                "蒋盛益, 陈东沂, 庞观松, et al. 微博信息可信度分析研究综述[J]. 图书情报工作, 2013, 57(12):136-142."
             ]
         }
     ],
     "initialAuthor":{
-        "name":"Kevin",
-        "introduce":"Computer, mathematics, engineering",
+        "name":"kv",
+        "introduce":"Positism, Liberalist, Engineer",
         "location":"Beijing, China",
         "email":"ankkevinluo@gmail.com",
         "avator":"./CAW.png"
     },
-    "tags":["technology","computer vision"],
-    "isFor":["age12-22","primary"],
-    "notFor":["age0-12","senior"],
-    "warning":["possible hurt level-middle","bad language level-low"],
-    "log":"Why are we here? What are we f**king doing?"
+    "tags":["内容总线","定义","创作动机","使用方法"],
+    "isFor":["了解创作原因","了解基本理念","回顾使用方法"],
+    "notFor":["",""],
+    "warning":["不通顺的语句","啰嗦"],
+    "log":"How can humans break through the definition of repeater?"
 
 }
