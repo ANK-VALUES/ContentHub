@@ -1,0 +1,28 @@
+{
+    "name":"为什么五次方程没有根式通解?",
+    "id":"4a4839502e24c1b31b62b2b1f5d0ac7f",
+    "type":"STM.THEORY",
+    "credibility":1.0,
+    "innerRefers":[
+    ],
+    "outerRefers":[
+        {
+            "GB/T7714":
+            [
+            ]
+        }
+    ],
+    "initialAuthor":{
+        "name":"kv",
+        "introduce":"Positism, Liberalist, Engineer",
+        "location":"unknown, China",
+        "email":"ankkevinluo@gmail.com",
+        "avator":"./avatar.png"
+    },
+    "tags":["抽象代数","三角等分","正十七边形","五次方程"],
+    "isFor":["复习近代的","回顾抽代","探索三角等分","探索正十七边形"],
+    "notFor":["不知代数"],
+    "warning":["部分表达错误","过多的跳步"],
+    "log":"你不可能在一天之内建起罗马.如果建起来了,那也不过是迷你罗马.",
+    "videoUrl":""
+}
